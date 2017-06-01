@@ -52,4 +52,71 @@ Array.find((value,index,arr) => value > 0)
 这两个方法都支持第二个参数this,用来绑定对调函数的对象。
 ### fill
 
+fill方法使用给定的值，填充一个数组。<br/>
+```
+['a', 'b', 'c'].fill(7)
+// [7, 7, 7]
+
+new Array(3).fill(7)
+// [7, 7, 7]
+
+```
+fill方法用于初始化数组，非常方便。数组中原有的元素会被全部抹去。<br/>
+fill方法还接受第二和三个参数。用于指定的其实位置和结束位置。
+```
+['a', 'b', 'c'].fill(7, 1, 2)
+// ['a', 7, 'c']
+
+```
+### 数组的示例方法entries()、keys()、values()
+这三个方法均是用书遍历数组。他们都返回一个遍历对象，可以用for...of进行遍历。<br/>
+<b>区别</b>
+<p>keys()是对键名的遍历</p>
+<p>values()是对键值的遍历</p>
+<p>entries是对键值对的遍历</p>
+<b>注意是和for...of组合的遍历</b>
+
+```
+for (let index of ['a', 'b'].keys()) {
+  console.log(index);
+}
+// 0
+// 1
+
+for (let elem of ['a', 'b'].values()) {
+  console.log(elem);
+}
+// 'a'
+// 'b'
+
+for (let [index, elem] of ['a', 'b'].entries()) {
+  console.log(index, elem);
+}
+// 0 "a"
+// 1 "b"
+```
+不是用for...of的话
+```
+let letter = ['a', 'b', 'c'];
+let entries = letter.entries();
+console.log(entries.next().value); // [0, 'a']
+console.log(entries.next().value); // [1, 'b']
+console.log(entries.next().value); // [2, 'c']
+```
+### includes()示例方法
+
+```
+[1, 2, 3].includes(2);     // true
+[1, 2, 3].includes(4);     // false
+[1, 2, NaN].includes(NaN); // true
+```
+该方法的第二个参数表示搜索的起始位置，默认为0。如果第二个参数为负数，则表示倒数的位置，如果这时它大于数组长度（比如第二个参数为-4，但数组长度为3），则会重置为从0开始。
+
+
+# functions
+
+### 几点重要的用法
+1、 默认参数,这些参数是默认声明的，所以不能使用let和const
+
+2、结构赋值和默认参数混合使用。
 
