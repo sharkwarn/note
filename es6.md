@@ -120,3 +120,51 @@ console.log(entries.next().value); // [2, 'c']
 
 2、结构赋值和默认参数混合使用。
 
+
+#### 描绘曲线代码
+```
+var arr=[25,26,26,27,29,32,36,33,30,28,27]
+  function drawLine(arr,width,height){
+    var box = document.getElementById('box');
+    var ctx = box.getContext('2d');
+    var a = getExtremum(arr);
+    var scaleNum =  180/(a.max-a.min);
+    
+    ctx.beginPath();
+    ctx.moveTo(0,200);
+    ctx.lineTo(0,190);
+    ctx.lineTo(100,190);
+    var average ;
+    var x=100;
+    for( var i=1; i<arr.length ; i++ ){
+      average  = x+50;
+      x = x+100;
+      // ctx.bezierCurveTo(average,200-(arr[i-1]-a.min)*scaleNum,average,200-(arr[i]-a.min)*scaleNum,x,200-(arr[i]-a.min)*scaleNum);
+      ctx.lineTo(x,200-(arr[i]-a.min)*scaleNum)
+    }
+    ctx.lineTo(x+100,190);
+    ctx.lineTo(x+200,200);
+    ctx.lineTo(0,200);
+    var grd=ctx.createLinearGradient(0,170,0,0);
+    grd.addColorStop(0.3,"#20A0FF");
+    grd.addColorStop(0.7,"#13CE66")
+    ctx.fillStyle=grd;
+    ctx.fill();
+    ctx.strokeStyle="#58B7FF";
+    ctx.lineWidth = 5;
+    ctx.stroke();
+    ctx.stroke();
+  }
+  function getExtremum(arr){
+    var max = -100 , min=100 ;
+    for(var i=0 ; i< arr.length ; i++){
+      max = arr[i] > max ? arr[i] : max;
+      min = arr[i] < min ? arr[i] : min;
+    }
+    return {
+      'max':max,
+      'min':min
+    }
+  }
+  drawLine(arr)
+```
