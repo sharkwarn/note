@@ -43,7 +43,10 @@ template: '<div>User {{ $route.params.id }}</div>'
 当在一个路由中设置了多端的路径参数对应的值都会设置到$route.params中，例如：
 
 | 模式  　　　　　　　| 匹配路径 　　　　　| $route.params|
+
 |　------ 　　　　| :-------: 　　　| ------:　　　|
+
 | /user/:username　|/user/evan　　　　| { username: 'evan' }|
+
 | /user/:username/post/:post_id | /user/evan/post/123 | { username: 'evan', post_id: 123 } |
 
