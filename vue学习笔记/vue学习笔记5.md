@@ -118,5 +118,15 @@ const router = new VueRouter({
 
 
 
+#使用vue-cli 创建一个项目
+
+vue init webpack-simple '项目名称'
+
+##### 使用element-ui
+
+```
+npm i element-ui -S
+```
+
 
 
