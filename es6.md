@@ -123,6 +123,7 @@ console.log(entries.next().value); // [2, 'c']
 
 
 
+
 # Iterator
 
 
@@ -186,3 +187,214 @@ run(get);
 // {value: undefined, done: true}
 // 11111111
 ```
+
+#### 描绘曲线代码
+```
+var arr=[25,26,26,27,29,32,36,33,30,28,27]
+  function drawLine(arr,width,height){
+    var box = document.getElementById('box');
+    var ctx = box.getContext('2d');
+    var a = getExtremum(arr);
+    var scaleNum =  180/(a.max-a.min);
+    
+    ctx.beginPath();
+    ctx.moveTo(0,200);
+    ctx.lineTo(0,190);
+    ctx.lineTo(100,190);
+    var average ;
+    var x=100;
+    for( var i=1; i<arr.length ; i++ ){
+      average  = x+50;
+      x = x+100;
+      // ctx.bezierCurveTo(average,200-(arr[i-1]-a.min)*scaleNum,average,200-(arr[i]-a.min)*scaleNum,x,200-(arr[i]-a.min)*scaleNum);
+      ctx.lineTo(x,200-(arr[i]-a.min)*scaleNum)
+    }
+    ctx.lineTo(x+100,190);
+    ctx.lineTo(x+200,200);
+    ctx.lineTo(0,200);
+    var grd=ctx.createLinearGradient(0,170,0,0);
+    grd.addColorStop(0.3,"#20A0FF");
+    grd.addColorStop(0.7,"#13CE66")
+    ctx.fillStyle=grd;
+    ctx.fill();
+    ctx.strokeStyle="#58B7FF";
+    ctx.lineWidth = 5;
+    ctx.stroke();
+    ctx.stroke();
+  }
+  function getExtremum(arr){
+    var max = -100 , min=100 ;
+    for(var i=0 ; i< arr.length ; i++){
+      max = arr[i] > max ? arr[i] : max;
+      min = arr[i] < min ? arr[i] : min;
+    }
+    return {
+      'max':max,
+      'min':min
+    }
+  }
+  drawLine(arr)
+```
+# class 
+
+#### 基础用法
+
+<b>注意</b>
+1、 实例的时候必须要用new否则会报错。
+
+2、class在实例后，class中定义的方法，在示例中都是不可枚举的属性。
+
+3、constuctor 方法为初始方法，代表在实例的时候立即执行，同时constructor最后默认返回一个对象，即为实例对象。如果主动修改返回其他的值也可以。
+
+4、constructor方法中的参数，即为实例过程中传递的参数。
+
+
+```
+class Point {
+  constructor(x, y) {
+    // ...
+  }
+
+  toString() {
+    // ...
+  }
+}
+```
+ 
+为了防止this指向的问题
+
+两种方法
+
+1、在构造方法中绑定this
+
+```
+class Logger {
+  constructor() {
+    this.printName = this.printName.bind(this);
+  }
+
+  // ...
+}
+```
+
+2、使用箭头函数
+
+```
+class Logger {
+  constructor() {
+    this.printName = (name = 'there') => {
+      this.print(`Hello ${name}`);
+    };
+  }
+
+  // ...
+}
+```
+
+3、还可以通过proxy，自动绑定this。
+
+
+##### 创建私有方法
+
+```
+class Widget {
+
+  // 公有方法
+  foo (baz) {
+    this._bar(baz);
+  }
+
+  // 私有方法
+  _bar(baz) {
+    return this.snaf = baz;
+  }
+
+  // ...
+}
+```
+##### 私有属性
+
+```
+class Point {
+  #x;
+
+  constructor(x = 0) {
+    #x = +x; // 写成 this.#x 亦可
+  }
+
+  get x() { return #x }
+  set x(value) { #x = +value }
+}
+```
+
+##### Class 的取值函数（getter）和存值函数（setter）
+
+```
+class MyClass {
+  constructor() {
+    // ...
+  }
+  get prop() {
+    return 'getter';
+  }
+  set prop(value) {
+    console.log('setter: '+value);
+  }
+}
+
+let inst = new MyClass();
+
+inst.prop = 123;
+// setter: 123
+
+inst.prop
+// 'getter'
+```
+
+
+##### class静态方法
+
+同样该方法依然可以在继承的方法上调用。
+
+```
+class Foo {
+  static classMethod() {
+    return 'hello';
+  }
+}
+
+Foo.classMethod() // 'hello'
+
+var foo = new Foo();
+foo.classMethod()
+// TypeError: foo.classMethod is not a function
+```
+
+##### 另一宗静态方法
+
+```
+class Foo {
+}
+
+Foo.prop = 1;
+Foo.prop // 1
+```
+
+<b>class 只有静态方法，并没有静态属性<b/>
+
+```
+// 以下两种写法都无效
+class Foo {
+  // 写法一
+  prop: 2
+
+  // 写法二
+  static prop: 2
+}
+
+Foo.prop // undefined
+```
+
+##### new.target属性
+
+用来判断是哪个class实例的

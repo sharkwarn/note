@@ -47,7 +47,7 @@ class定义
 
 ### vue的组件
 
-####注册一个全局的组件
+#### 注册一个全局的组件
 
     html:
 
@@ -143,3 +143,5 @@ vue也支持检验prop的传值是否规范
 
   使用 $on(eventName) 监听事件
   使用 $emit(eventName) 触发事件
+  
+  
