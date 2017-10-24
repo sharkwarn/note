@@ -120,3 +120,69 @@ console.log(entries.next().value); // [2, 'c']
 
 2、结构赋值和默认参数混合使用。
 
+
+
+
+# Iterator
+
+
+```
+var it = makeIterator(['a', 'b']);
+
+it.next() // { value: "a", done: false }
+it.next() // { value: "b", done: false }
+it.next() // { value: undefined, done: true }
+
+function makeIterator(array) {
+  var nextIndex = 0;
+  return {
+    next: function() {
+      return nextIndex < array.length ?
+        {value: array[nextIndex++], done: false} :
+        {value: undefined, done: true};
+    }
+  };
+}
+```
+
+
+
+# co函数封装
+```
+function run (gen) {
+  const a = gen();
+  function next(data){
+    var result = a.next(data);
+    console.log(result);
+    if (result.done){
+      return data;
+    }
+    result.value.then(function(data){
+      console.log(data);
+      next(data);
+    })
+  }
+  next();
+}
+
+function* get(){
+  console.log('yes1111');
+  const a = yield new Promise(function(resolve, reject){
+    setTimeout(()=>{
+      resolve(11111111);
+    },2000)
+  })
+  console.log(a);
+}
+
+run(get);
+
+//输出结果
+// yes1111
+
+// {value: Promise, done: false}
+// 两秒后触发
+//11111111
+// {value: undefined, done: true}
+// 11111111
+```
