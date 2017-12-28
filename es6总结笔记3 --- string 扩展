@@ -1,0 +1,63 @@
+### 没啥说的工作中用到的不是特别频繁，了解几个可能会经常用的api
+
+### 模板字符串
+
+#### 总结下几个重要的点： 
+
++ 支持插入变量 （以前只能用+去连接）
++ 支持换行 （以前想要换行只能用 \n 表示）
+
+#### 一点增加了开发效率
+
+```
+// 字符串中嵌入变量
+let name = "Bob", time = "today";
+`Hello ${name}, 
+
+how are you ${time}?`
+
+```
+
+
+### includes(),startsWith(), endsWith()
+
++ 以前都是用indexOf 但是有点词不达意的感觉因为我用indexOf的时候大部分是判断字符串中含不含有某一个值，你给我返回-1 或者其他是几个意思。告诉我true或者false不就好了。 交流起来真费劲。
+
+所以就有了 includes， 这个东西就是这么来的，数组中的扩展同样包含这个关键词
+
+```
+let a = 'hello world'
+
+a.includes('ll') // true
+
+
+```
+
++ startsWith() 同样返回布尔值，表示字符串开始是否是这个
+
+```
+let a = 'hello world'
+
+a.startWith('he') // true
+```
++ endsWidth 同样返回布尔值，表示字符串末尾是否是这个
+
+```
+let a = 'hello world'
+
+a.startWith('ld') // true
+```
+
+###  repeat() 
+
++ repeat方法返回一个新字符串，表示将原字符串重复n次。
+```
+'x'.repeat(3) // "xxx"
+'hello'.repeat(2) // "hellohello"
+'na'.repeat(0) // ""
+
+```
+
+
+
+## 其他的不说了，你有兴趣可以看一下。我也不怎么用。因为工作用其他方法可以达到同样的效果。
