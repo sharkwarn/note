@@ -1,0 +1,172 @@
+
+### 数组和对象的扩展有些相似的地方，所以一起说吧
+
+### 扩展运算符
+
+扩展运算符（spread）是三个点（...） 这个应该工作中都用过
+ 
++ 对于数组和对象相同的地方
+    + 遍历的作用
+    ```
+    console.log(...[1,2,3,4])
+    // 1  2  3 4
+    // 就是把数组遍历开
+    ```
+  
+    + 复制数组
+    ```
+    let a = [1,2]
+    let b = a
+    // 这样的话a和b指的是同一个数组
+    //，因为指针指的是内存中的同一个对象
+    // 操作b的话 a也会发生变化
+    
+    // 但是如果这么写的话
+    let a = [1,2]
+    let b = [..a]
+    // a和b一样但是是两个指针
+    // b原本是个空数组，后来增加了a的子项
+    
+    // 同一样上面这个理论也适用于对象
+    // 即
+    let a = {'a': 1}
+    let b = {...a}
+    ```
+    + 合并数组或者合并对象
+    ```
+    const a = [1,2,3]
+    const b = [4,5,6]
+    a.push(...b)
+    a // [1,2,3,4,5,6]
+    
+    let c = [...a, ...b]
+    c  // [1,2,3,4,5,6,4,5,6]
+    
+    //想想用es5得多麻烦，你还需要遍历数组
+    
+    //如果是对象的话记得相同的key会采用后面那个值
+    //所以dva的reduce是这样写的
+    return { ...state, ...payload }
+    //而不是这样
+    return { ...payload, ...state} 
+    ```
+    + 扩展运算符甚至可以把字符串遍历开
+    ```
+    [...'hello']
+    // [ "h", "e", "l", "l", "o" ]
+    ```
+###### 关于循环你可以不知道下面的东西，但是别人问你es6的循环的时候你一定要说，es6里面可以使用for ... of循环
++
+    + 对象和数组的循环真的很像，还有忘记for ... in 吧,这里用的全部是for ... of
+    + 对象和数组的实例都有三个遍历方法 entries()，keys() 和 values()，当然不止数组可对象可遍历的基本上都支持这三个方法。只是用的时候可能存在细微的差别。
+    + 三个代表的意思分别是，遍历key和value， 遍历key， 遍历 value。
+    + 数组的用法
+    ```
+    // 遍历key
+    for (let index of ['a', 'b'].keys()) {
+      console.log(index);
+    }
+    // 0
+    // 1
+    
+    //遍历 value
+    for (let elem of ['a', 'b'].values()) {
+      console.log(elem);
+    }
+    // 'a'
+    // 'b'
+    
+    //遍历key和value
+    for (let [index, elem] of ['a', 'b'].entries()) {
+      console.log(index, elem);
+    }
+    // 0 "a"
+    // 1 "b"
+    ```
+    +看看对象的用法，看看差别在哪特别小
+    ```
+    let obj = { a: 1, b: 2, c: 3 };
+    // 遍历key
+    for (let key of Object.keys(obj)) {
+      console.log(key); // 'a', 'b', 'c'
+    }
+    
+    //遍历 value
+    for (let value of Object.values(obj)) {
+      console.log(value); // 1, 2, 3
+    }
+    
+    //遍历key和value
+    for (let [key, value] of Object.entries(obj)) {
+      console.log([key, value]); // ['a', 1], ['b', 2], ['c', 3]
+    }
+    ```
+    
+### 针对数组自己的
+
++ Array.from()
+##### 记住一句话，讲可遍历的东西全部变为数组（对象除外，至于具体以下面的话为准）
+
+Array.from方法用于将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）的对象（包括 ES6 新增的数据结构 Set 和 Map）。
+
+
++ 关于数组还有几个api需要记住
+
+#### find() 和 findIndex() 
+find()查找到第一个返回值为true的item
+```
+[1, 5, 10, 15].find(function(value, index, arr) {
+  return value > 9;
+}) 
+
+// 10
+```
+
+findIndex()查找到第一个返回值为true的索引值 如果都没有返回-1（是不是和indexOf()个很像）
+```
+[1, 5, 10, 15].findIndex(function(value, index, arr) {
+  return value > 9;
+}) // 2
+```
++ 数组实例的 includes()
+
+```
+[1, 2, 3].includes(2)     // true 或者false
+```
+
+### 针对对象
+
++ Object.is() 比较两个值是否相等 与 ‘===’ 行为基本一致
+
+```
+Object.is('foo', 'foo')
+// true
+Object.is({}, {})
+// false 这里比较的应该是指针
+```
+
++ Object.assign()
+
+```
+const target = { a: 1 };
+
+const source1 = { b: 2 };
+const source2 = { c: 3 };
+
+Object.assign(target, source1, source2);
+target // {a:1, b:2, c:3}
+```
+
+需要注意下 Object.assign方法的第一个参数是目标对象，后面的参数都是源对象
+
+所以有人这么写
+
+```
+Object.assign({}, obj)
+// 他的内心其实是这样想的
+
+JSON.parse(JSON.stringify(obj))
+
+
+```
+想法无非是新建一个队形拥有obj一样的值===>  <克隆对象>
