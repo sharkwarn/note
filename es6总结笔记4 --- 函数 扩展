@@ -1,0 +1,92 @@
+
+##函数扩展
+
+### 支持默认值
+
+```
+//es5 的写法
+
+function log(x, y) {
+    // 进来的时候没有就赋值
+    x = x|| 'hello'    
+    y = y || 'World';
+    console.log(x, y);
+}
+```
++ 现在写法
+
+```
+function log(x = 'hello', y = 'World') {
+  console.log(x, y);
+}
+```
+### 需要注意下，参数不能重名，否则会报错的。但是es5里面重名也不会报错
+
+类似这样报错
+```
+function foo(x, x, y = 1) {
+  // ...
+}
+```
+
+### rest 参数 就是  '...' 
+
++ 代表后面的参数集合
+```
+function add(a, b, ...values) {
+  let sum = 0;
+
+  for (var val of values) {
+    sum += val;
+  }
+
+  return sum;
+}
+```
+
+### 箭头函数 (非常重要，也算是使用最多的了，你看看你知道多少)
+
++ 箭头函数不会发生this的转移
+    + react 中常用的onClick事件， 如果生命函数的地方使用箭头函数那么this指定的就是当前组件
+    ```
+     ----
+     handleClick = () => {
+         console.log(this)
+     }
+     
+     render(){
+         return (
+            <div onClick={this.handleClick}></div>
+         )
+     }
+      ----
+    ````
+    + 异步回调等函数是this也会发生转移
+    ```
+        {
+            //比如这里面有一个this 且this是a
+            setTimeout(()=>{
+                console.log(this) // a
+            },1000}
+            setTimeout(function(){
+                console.log(this) // window
+            },1000)
+        }
+        
+    ```
+
+##### 当然为了不使this丢失这也是使用bind或者双冒号
+```
+function con(){
+    console.log(this)
+}
+setTimeout(con.bind(this),1000)
+setTimeout(::con,1000)
+```
+
++ 箭头函数后面如果是这样的
+```
+() => a // 代表直接retuan
+() => {return a} 带括号需要使用return 
+
+```
