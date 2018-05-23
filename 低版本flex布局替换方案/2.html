@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>纵向布局</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html, body{
+            width: 100%;
+            height: 100%;
+        }
+        .box{
+            width: 100%;
+            height: 100%;
+            display: table;
+        }
+        .container {
+            width: 100%;
+            height: 100%;
+            display: table-row-group;
+        }
+        .row {
+            width: 100%;
+            display: table-row;
+        }
+        .a{
+            min-height: 30px;
+            background: #f00;
+        }
+        .a p {
+            height: 30px;
+        }
+        .b{
+            background: #0f0;
+            height: 100%;
+        }
+        .c{
+            background: #00f;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="container">
+            <div class="a row">
+                <p>11</p>
+                <p>11</p>
+                <p>还可能有很多其他的内容。。。。</p>
+            </div>
+            <div class="b row">2</div>
+            <div class="c row">3</div>
+        </div>
+    </div>
+</body>
+</html>
