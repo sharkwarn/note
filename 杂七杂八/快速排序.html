@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    function changePosition(arr, left, right) {
+        var a = arr[left]
+        arr[left] = arr[right]
+        arr[right] = a
+    }
+    function quickSort(arr, left, right) {
+        var temp = arr[Math.floor((left + right)/2)]
+        while (left <= right) {
+            while( arr[right] > temp && right > left ) {
+                right--
+            }
+            while( arr[left] < temp && left < right ) {
+                left++
+            }
+            if( left <= right ) {
+                changePosition(arr, left, right)
+                right--
+                left++
+            }
+        }
+        // console.log(left)
+        return left
+    }
+    function quick(arr, left, right) {
+        var index 
+        if( arr.length > 1 ) {
+            index = quickSort(arr, left, right)
+            if( index-1 > left ) {
+                quick(arr, left, index - 1)
+            }
+            if( index < right ) {
+                quick(arr, index, right)
+            }
+        }
+        return arr
+    }
+
+    var a = [2,6,1,9,3,0,5,4,7,10, 9,8]
+    var b = quick(a, 0, a.length-1)
+    console.log(b)
+</script>
+</html>
