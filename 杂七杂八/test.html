@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>test</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+// 防抖
+function debounce (fun, dealy) {
+    return function(args) {
+        let that = this
+        let _args = args
+        clearTimeout(fun.id)
+        fun.id = setTimeout(function(){
+            fun.call(that, _args)
+        }, dealy)
+    }
+}
+
+
+// 节流
+
+function throttle (fun, dealy) {
+    let last, timer
+    return function (args) {
+        let that = this
+        let _args = arguments
+        let now = +new Date()
+        if( last && now < dealy+last ) {
+            clearTimeout(timer)
+            timer = setTimeout(function(){
+                last = now
+                fun.call(that, _args)
+            }, dealy)
+        }else{
+            fun.call(that, _args)
+        }
+    }
+}
+
+// 归并排序
+// 原理将元素拆分成只包含有一个的元素，然后在合并的时候进行排序。
+// 归并排序比快速排序性能差的是因为需要辅助数组来进行来存放和合并。二快速排序可以全程仅操作一个数组
+
+//该数组仅进行拆分操作
+function mergeSort(arr) {
+    let len = arr.length
+    if( len < 2 ) {
+        return arr
+    }
+    let mid = Math.floor(len/2)
+    const left = arr.slice(0, mid)
+    const right = arr.slice(mid, len)
+    return merge(mergeSort(left), mergeSort(right))
+}
+
+function merge(left, right) {
+    const arr = []
+    while(left.length > 0 && right.length > 0) {
+        if( left[0] < right[0] ) {
+            arr.push(left.shift())
+        }else{
+            arr.push(right.shift())
+        }
+    }
+    while( left.length > 0 ) {
+        arr.push(left.shift())
+    }
+    while( right.length > 0 ) {
+        arr.push(right.shift())
+    }
+    return arr
+}
+
+///归并排序进行验证
+let arrtest1 = []
+
+while( arrtest1.length < 100 ) {
+    arrtest1.push(Math.floor(Math.random()*100))
+}
+console.log(mergeSort(arrtest1))
+
+</script>
