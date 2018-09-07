@@ -10,42 +10,55 @@
     
 </body>
 <script>
-    function changePosition(arr, left, right) {
-        var a = arr[left]
-        arr[left] = arr[right]
-        arr[right] = a
+    
+function swap(array, a, b) {
+    [array[a], array[b]] = [array[b], array[a]];
+  }
+
+function quick(array, left, right) {
+    let index;
+    if (array.length > 1) {
+      index = partition(array, left, right);
+      if (left < index - 1) {
+        quick(array, left, index - 1);
+      }
+      if (index < right) {
+        quick(array, index, right);
+      }
     }
-    function quickSort(arr, left, right) {
-        var temp = arr[Math.floor((left + right)/2)]
-        while (left <= right) {
-            while( arr[right] > temp && right > left ) {
-                right--
-            }
-            while( arr[left] < temp && left < right ) {
-                left++
-            }
-            if( left <= right ) {
-                changePosition(arr, left, right)
-                right--
-                left++
-            }
-        }
-        // console.log(left)
-        return left
+    return array;
+  }
+  function partition(array, left, right) {
+    // 用index取中间值而非splice
+    const pivot = array[Math.floor((right + left) / 2)];
+    let i = left;
+    let j = right;
+
+    while (i <= j) {
+      while (compare(array[i], pivot) === -1) {
+        i++;
+      }
+      while (compare(array[j], pivot) === 1) {
+        j--;
+      }
+      if (i <= j) {
+        swap(array, i, j);
+        i++;
+        j--;
+      }
     }
-    function quick(arr, left, right) {
-        var index 
-        if( arr.length > 1 ) {
-            index = quickSort(arr, left, right)
-            if( index-1 > left ) {
-                quick(arr, left, index - 1)
-            }
-            if( index < right ) {
-                quick(arr, index, right)
-            }
-        }
-        return arr
+    return i;
+  }
+
+function compare(a, b) {
+    if (a === b) {
+      return 0;
     }
+    return a < b ? -1 : 1;
+  }
+let arrtest2 = [2, 4,5,2,35,6,3,5,23,3,60]
+
+
 
     var a = [2,6,1,9,3,0,5,4,7,10, 9,8]
     var b = quick(a, 0, a.length-1)

@@ -84,6 +84,58 @@ let arrtest1 = []
 while( arrtest1.length < 100 ) {
     arrtest1.push(Math.floor(Math.random()*100))
 }
-console.log(mergeSort(arrtest1))
+console.log(mergeSort(arrtest1), '归并排序结果')
+
+// 快速排序
+// 分为两部分。以中间的点大小为衡量值左右两边分别向中间走，将左边的大的和右边小的交换位置。当两个点交叉的时候左边所有元素小于右边的元素。
+// 然后以交叉点为分割点。拆分成两部分。递归。直到拆分成单个的元素。
+
+function quick (arr, left, right) {
+    if( arr.length > 1 ) {
+        let index = quickSort(arr, left, right)
+        if( index - 1 > left ) {
+            quick(arr, left, index -1 )
+        }
+        if( index < right ) {
+            quick(arr, index, right)
+        }
+    }
+    return arr
+}
+
+function quickSort(arr, left, right) {
+    const mid = arr[Math.floor((left + right)/2)]
+    while( left <= right ) {
+        // 注意下这个步骤 马丹这个地方竟然可以不用做left< right的限制
+        // 因为在移动也不可能到右边的因为有中间的限制
+        //记住一点一旦移位mid的中间索引值必然会大一位所以不用担心会跑到后面去
+        while( arr[left] < mid ) {
+            left++ 
+        }
+        // 注意下这个步骤
+        while( arr[right] > mid) {
+            right--
+        }
+        if( left <= right ) {
+            changePosition(arr, left, right)
+            left++
+            right--
+        }
+    }
+    return left
+}
+
+function changePosition(arr, left, right) {
+    [arr[right], arr[left]] = [arr[left], arr[right]]
+}
+
+
+let arrtest2 = [1,1,1,6,7,7,1]
+
+// while( arrtest2.length < 100 ) {
+//     arrtest2.push(Math.floor(Math.random()*100))
+// }
+
+console.log(quick(arrtest2, 0, arrtest2.length-1))
 
 </script>
