@@ -155,11 +155,12 @@ Function.prototype.bind2 = function(context) {
         if( this instanceof F ) {
             return new _this(..._args, ...arguments)
         }
-        return _this.apply(this, args.concat(...arguments)) //...运算符可以将伪数组变为真正的数组
+        return _this.apply(context, args.concat(...arguments)) //...运算符可以将伪数组变为真正的数组
     }
 }
 
 // document.addEventListener('click', function(e){
 //     console.log('yes')
 // }.bind2({a:1}), false)
+
 </script>
