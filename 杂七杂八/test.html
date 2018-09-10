@@ -84,7 +84,7 @@ let arrtest1 = []
 while( arrtest1.length < 100 ) {
     arrtest1.push(Math.floor(Math.random()*100))
 }
-console.log(mergeSort(arrtest1), '归并排序结果')
+// console.log(mergeSort(arrtest1), '归并排序结果')
 
 // 快速排序
 // 分为两部分。以中间的点大小为衡量值左右两边分别向中间走，将左边的大的和右边小的交换位置。当两个点交叉的时候左边所有元素小于右边的元素。
@@ -136,6 +136,30 @@ let arrtest2 = [1,1,1,6,7,7,1]
 //     arrtest2.push(Math.floor(Math.random()*100))
 // }
 
-console.log(quick(arrtest2, 0, arrtest2.length-1))
+// console.log(quick(arrtest2, 0, arrtest2.length-1))
 
+
+
+
+
+// 实现bind方法
+Function.prototype.bind2 = function(context) {
+    if( typeof this !== 'function' ) {
+        console.error('这不是一个函数')
+        return
+    }
+    const _this = this // 这里的this指的就是函数本身
+    console.log(_this)
+    const _args = [...arguments].slice(1)
+    return function F() {
+        if( this instanceof F ) {
+            return new _this(..._args, ...arguments)
+        }
+        return _this.apply(this, args.concat(...arguments)) //...运算符可以将伪数组变为真正的数组
+    }
+}
+
+// document.addEventListener('click', function(e){
+//     console.log('yes')
+// }.bind2({a:1}), false)
 </script>
