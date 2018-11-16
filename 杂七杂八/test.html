@@ -39,6 +39,9 @@ function throttle (fun, dealy) {
                 fun.call(that, _args)
             }, dealy)
         }else{
+            // 想想小丽
+            clearTimeout(timer)
+            last = now
             fun.call(that, _args)
         }
     }
